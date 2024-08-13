@@ -1,5 +1,12 @@
 {
   "projects": {
     "default": "maps-prospect-searcher"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {
+    "postgres": {
+      "localConnectionString": "postgresql://postgres:admin@localhost:5432/postgresdatabase?sslmode=disable"
+    }
   }
 }

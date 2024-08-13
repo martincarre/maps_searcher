@@ -1,5 +1,7 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const functions = require("firebase-functions");
+const { initializeApp } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 const logger = require("firebase-functions/logger");
 const { Client, PlacesNearbyRanking, PlaceType1 } = require("@googlemaps/google-maps-services-js");
 const puppeteer = require('puppeteer');
@@ -10,6 +12,9 @@ const googleMaps = new Client({});
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 }
+
+initializeApp();
+
 
 async function getLatLng(zipCode, apiKey) {
     try {
@@ -135,6 +140,8 @@ exports.findBusinesses = onRequest(async (req, res) => {
     const businessType = req.query.type || 'pharmacy';
     const keyword = req.query.keyword || 'Farmacia';
     const apiKey = process.env.NODE_ENV === 'production' ? functions.config().google.api_key : process.env.GOOGLE_API_KEY;
+    const dbCollection = getFirestore().collection(businessType);
+
 
     try {
         const { lat, lng } = await getLatLng(zipCode, apiKey);
@@ -142,8 +149,17 @@ exports.findBusinesses = onRequest(async (req, res) => {
 
         // Function to handle scraping and details fetching concurrently
         const handleBusinessDetails = async (business) => {
+            
+            // First search firestore for the business. If it exists, return it to a const 
+            const doc = await dbCollection.doc(business.place_id).get();
+            // if it exists and the document was created less than 3 months ago, return the document data:
+            if (doc.exists && new Date(doc.createTime._seconds * 1000) > new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)) {
+                return doc.data();
+            }
+
+            //  continue with the scraping and details fetching
             const details = await getBusinessDetails(business.place_id, apiKey);
-            const website = details.website;
+            const website = details.website ? details.website : null;
             let emails = [];
             let nifCif = null;
 
@@ -152,21 +168,40 @@ exports.findBusinesses = onRequest(async (req, res) => {
                 emails = contactInfo.emails;
                 nifCif = contactInfo.nifCif;
             }
-
-            return {
+            const businessData = {
                 name: details.name,
                 address: details.formatted_address,
-                phone_number: details.formatted_phone_number,
+                phone_number: details.formatted_phone_number ? details.formatted_phone_number : null,
                 website: website,
                 emails: emails,
                 nif_cif: nifCif
             };
+            // If there's a existing old (over 3 months old) document in firestore, compare the information stored and the one fetched
+            const sameData = JSON.stringify(businessData) === JSON.stringify(doc.data());
+            // If there's a difference, update the document in firestore with the new information
+            if (!sameData) {
+                await dbCollection.doc(business.place_id).set({...businessData,});
+            }
+            // If there's no difference, continue with the next business
+
+            // If there's no existing document in firestore, create a new document with the fetched information with the business.place_id as the document id
+            if (!doc.exists) {
+                await dbCollection.doc(business.place_id).set({...businessData,});
+            }
+
+            return businessData;            
         };
+
 
         // Perform all scraping and details fetching concurrently
         const businessDetails = await Promise.all(businesses.map(handleBusinessDetails));
 
+        // Save the results to firestore
+        
+
         res.json({ businesses: businessDetails });
+
+        return 0;
     } catch (error) {
         console.error("Error:", error);
         res.status(500).send("An error occurred");
