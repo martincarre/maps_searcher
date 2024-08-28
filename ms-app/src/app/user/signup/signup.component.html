@@ -1,0 +1,10 @@
+<mat-card style="margin: auto; width: 50%; padding: 1.75rem;">
+    <mat-card-header>
+        <mat-card-title>
+            <h1>Sign up</h1>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <app-dynamic-form [questions]="questions$ | async"></app-dynamic-form>
+    </mat-card-content>
+</mat-card>
