@@ -1,3 +1,13 @@
 .spacer { 
     flex: 1 1 auto;
 }
+
+.title { 
+    margin-left: 1rem;
+}
+
+@media (max-width: 767px) {
+    .title {
+        display: none;
+    }
+}

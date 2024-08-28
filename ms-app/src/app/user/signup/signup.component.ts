@@ -5,6 +5,7 @@ import { SignupFormService } from './signup-form.service';
 import { QuestionBase } from '../../shared/forms/dynamic-forms/question-classes/question-base.class';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { StyleSection } from '../../shared/forms/dynamic-forms/question-classes/form-style-section.class';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { AsyncPipe } from '@angular/common';
 })
 export class SignupComponent {
   sufs = inject<SignupFormService>(SignupFormService);
-  questions$: Observable<QuestionBase<string>[]>;
+  questions$: Observable<(QuestionBase<string> | StyleSection<any> )[]>;
   constructor() { 
     this.questions$ = this.sufs.getQuestions();
   }

@@ -5,6 +5,7 @@ import { DynamicFormQuestionComponent } from '../dynamic-form-question/dynamic-f
 import { QuestionControlService } from '../question-control.service';
 import { QuestionBase } from '../question-classes/question-base.class';
 import { DynamicFormsModule } from '../../dynamic-forms.module';
+import { StyleSection } from '../question-classes/form-style-section.class';
 
 @Component({
   standalone: true,
@@ -16,7 +17,7 @@ import { DynamicFormsModule } from '../../dynamic-forms.module';
 
 export class DynamicFormComponent implements OnInit {
   private qcs = inject<QuestionControlService>(QuestionControlService);
-  questions = input<QuestionBase<string>[] | null>([]);
+  questions = input<(QuestionBase<string>| StyleSection<any>)[] | null>([]);
   form!: FormGroup;
   payLoad = '';
 

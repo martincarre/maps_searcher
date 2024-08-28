@@ -1,9 +1,18 @@
 <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       @for (question of questions(); track question) {
-        <div class="form-row">
-          <app-question [question]="question" [form]="form"></app-question>
-        </div>
+        @if (question instanceof StyleSection) {
+          <div class="form-row">
+            <div [ngClass]="question.class">
+              This is a style section
+            </div>
+          </div>
+        }
+        @else {
+          <div class="form-row">
+            <app-question [question]="question" [form]="form"></app-question>
+          </div>
+        }
       }
       <div class="form-row">
         <button mat-raised-button type="submit">Save</button>
