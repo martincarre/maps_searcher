@@ -10,6 +10,8 @@ export class QuestionBase<T> {
   type: string;
   options: {key: string; value: string}[];
   materialCss: MatFormFieldAppearance;
+  suffix: string | undefined;
+  prefix: string | undefined;
 
   constructor(
     options: {
@@ -22,6 +24,8 @@ export class QuestionBase<T> {
       type?: string;
       options?: {key: string; value: string}[];
       materialCss?: MatFormFieldAppearance;
+      suffix?: string;
+      prefix?: string;
     } = {},
   ) {
     this.value = options.value;
@@ -33,5 +37,7 @@ export class QuestionBase<T> {
     this.type = options.type || '';
     this.options = options.options || [];
     this.materialCss = options.materialCss || 'fill';
+    this.suffix = options.suffix;
+    this.prefix = options.prefix;
   }
 }

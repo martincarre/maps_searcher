@@ -1,17 +1,25 @@
 <div [formGroup]="form()">
-    <mat-form-field [appearance]="question().materialCss">      
-        <mat-label [attr.for]="question().key">{{ question().label }}</mat-label>
-        @switch (question().controlType) {
-            @case ('textbox') {
-                <input matInput [formControlName]="question().key" [id]="question().key" [type]="question().type">
-            } @case ('dropdown') {
-                <mat-select [id]="question().key" [formControlName]="question().key">
-                @for (opt of question().options; track opt) {
-                <mat-option [value]="opt.key">{{ opt.value }}</mat-option>
-                }
-                </mat-select>
+    @switch (question().controlType) {
+        @case ('textbox') { 
+            <ng-container >
+                    <mat-form-field [appearance]="question().materialCss">
+                        <mat-label [attr.for]="question().key">{{ question().label }}</mat-label>
+                        @if(question().prefix) {<mat-icon matPrefix>{{ question().prefix }}</mat-icon>}
+                        <input matInput [formControlName]="question().key" [id]="question().key" [type]="question().type" />
+                        @if (question().suffix) {<mat-icon matSuffix>{{ question().suffix }}</mat-icon>}
+                    </mat-form-field>
+                </ng-container>
+            } 
+            @case ('dropdown') {
+                <mat-form-field [appearance]="question().materialCss">
+                    <mat-label [attr.for]="question().key">{{ question().label }}</mat-label>
+                    <mat-select [id]="question().key" [formControlName]="question().key">
+                    @for (opt of question().options; track opt) {
+                        <mat-option [value]="opt.key">{{ opt.value }}</mat-option>
+                    }
+                    </mat-select>
+                </mat-form-field>
             }
         }
         @if (!isValid) {<mat-error>{{ question().label }} is required</mat-error>}
-    </mat-form-field>
 </div>

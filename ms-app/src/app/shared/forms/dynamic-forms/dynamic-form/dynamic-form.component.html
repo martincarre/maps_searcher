@@ -1,11 +1,9 @@
 <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       @for (question of questions(); track question) {
-        @if (question instanceof StyleSection) {
+        @if (isStyleSection(question)) {
           <div class="form-row">
-            <div [ngClass]="question.class">
-              This is a style section
-            </div>
+            <app-style-section [section]="question"/>
           </div>
         }
         @else {
