@@ -1,0 +1,18 @@
+.signUpForm {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.center-card-container { 
+    margin: auto; 
+    width: 50%; 
+    padding: 1.75rem;
+}
+
+/* Media query for smartphones */
+@media (max-width: 767px) {
+    .center-card-container {
+        width: 100%;
+    }
+}

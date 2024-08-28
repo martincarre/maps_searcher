@@ -1,17 +1,15 @@
-import { Component, inject, Signal } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { DynamicFormComponent } from "../../shared/forms/dynamic-forms/dynamic-form/dynamic-form.component";
+import { Component, inject } from '@angular/core';
 import { SignupFormService } from './signup-form.service';
 import { QuestionBase } from '../../shared/forms/dynamic-forms/question-classes/question-base.class';
 import { Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
 import { StyleSection } from '../../shared/forms/dynamic-forms/question-classes/form-style-section.class';
+import { UserModule } from '../user.module';
 
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [MatCardModule, DynamicFormComponent, AsyncPipe],
+  imports: [UserModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })

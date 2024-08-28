@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { QuestionBase } from '../../shared/forms/dynamic-forms/question-classes/question-base.class';
-import { of } from 'rxjs';
-import { DropdownQuestion } from '../../shared/forms/dynamic-forms/question-classes/question-dropdown.class';
+import { Observable, of } from 'rxjs';
 import { TextboxQuestion } from '../../shared/forms/dynamic-forms/question-classes/question-textbox.class';
 import { StyleSection } from '../../shared/forms/dynamic-forms/question-classes/form-style-section.class';
 
@@ -10,7 +9,7 @@ import { StyleSection } from '../../shared/forms/dynamic-forms/question-classes/
 })
 export class LoginFormService {
 
-  getQuestions() {
+  getQuestions(): Observable<(QuestionBase<string> | StyleSection<any>)[]> {
     const questions: (QuestionBase<string> | StyleSection<any>)[] = [ 
       new TextboxQuestion({
         key: 'email',
@@ -31,5 +30,6 @@ export class LoginFormService {
         suffix: 'password'
       }),
     ]
+    return of(questions);
   }
 }
