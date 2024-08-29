@@ -1,0 +1,14 @@
+.container { 
+    margin: auto; 
+    width: 80%; 
+    padding: 3rem;
+}
+
+
+/* Media query for smartphones */
+@media (max-width: 767px) {
+    .container {
+        width: 95%;
+        padding: 1.5rem;
+    }
+}

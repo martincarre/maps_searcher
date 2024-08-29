@@ -1,12 +1,6 @@
-.signUpForm {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-}
-
 .center-card-container { 
     margin: auto; 
-    width: 50%; 
+    width: 45%; 
     padding: 1.75rem;
 }
 
@@ -15,4 +9,13 @@
     .center-card-container {
         width: 100%;
     }
+}
+
+.signup {
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+mat-card-actions {
+    margin-top: 1.5rem;
 }

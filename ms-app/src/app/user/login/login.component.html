@@ -4,8 +4,11 @@
             <h1>Login</h1>
         </mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-        <app-dynamic-form [questions]="questions$ | async"></app-dynamic-form>
-    </mat-card-content>
+        <app-dynamic-form [questions]="questions$ | async" (submitEvent)="onLogin($event)">
+            <span class="signup">Don't have an account? Sign up <a routerLink="/user/signup">here</a></span>
+            <mat-card-actions>
+                <button mat-fab extended color="primary" type="submit">Login</button>
+            </mat-card-actions>
+        </app-dynamic-form>
 </mat-card>
 

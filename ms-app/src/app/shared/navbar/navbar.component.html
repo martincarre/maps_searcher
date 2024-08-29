@@ -1,14 +1,20 @@
 <mat-toolbar>
-    <a routerLink="['/home']" >
+    <a routerLink="home" >
       <img src="assets/favicon-32x32.png"/>
     </a>
     <span class="title">Maps Business Searcher</span>
     <span class="spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
+    <button mat-button color="warn" routerLink="/user/signup" aria-label="Signup button">
+      Signup!
+      <mat-icon>rocket_launch</mat-icon>
     </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
+    <button mat-button color="primary" routerLink="/user/login" aria-label="Login icon">
+      Login
+      <mat-icon>login</mat-icon>
+    </button>
+    <button mat-button color="secondary" (click)="onLogout()" aria-label="Logout icon">
+      Logout
+      <mat-icon>logout</mat-icon>
     </button>
 </mat-toolbar>
   

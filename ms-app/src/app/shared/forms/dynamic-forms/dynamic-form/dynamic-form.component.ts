@@ -1,4 +1,4 @@
-import {Component, inject, input, Input, OnInit} from '@angular/core';
+import {Component, inject, input, OnInit, output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup} from '@angular/forms';
 import { DynamicFormQuestionComponent } from '../dynamic-form-question/dynamic-form-question.component';
@@ -20,6 +20,7 @@ export class DynamicFormComponent implements OnInit {
   private qcs = inject<QuestionControlService>(QuestionControlService);
   questions = input<(QuestionBase<string>| StyleSection<any>)[] | null>([]);
   form!: FormGroup;
+  submitEvent = output<FormGroup>();
   payLoad = '';
 
   ngOnInit() {
@@ -27,7 +28,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.payLoad = JSON.stringify(this.form.getRawValue());
+    this.submitEvent.emit(this.form);
   }
 
   isStyleSection(question: QuestionBase<string> | StyleSection<any>): question is StyleSection<any> {
